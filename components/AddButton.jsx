@@ -1,17 +1,20 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-const Additem = () => {
+const AddButton = props => {
+  const {addItem} = props;
+  console.log(props);
+
   return (
     <View>
-      <TouchableOpacity style={styles.buttonStyle}>
+      <TouchableOpacity style={styles.buttonStyle} onPress={addItem}>
         <Text style={styles.btnTextstyle}>Add to List</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default Additem;
+export default AddButton;
 
 const styles = StyleSheet.create({
   buttonStyle: {

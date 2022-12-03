@@ -8,29 +8,35 @@ import {
   FlatList,
 } from 'react-native';
 import React, {useState} from 'react';
-import Additem from './components/Additem';
-const somegroceries = [
-  {
-    id: 1,
-    item: 'butter',
-  },
-  {
-    id: 2,
-    item: 'eggs',
-  },
-  {
-    id: 3,
-    item: 'cheese',
-  },
-];
-const DATA = ['eggs', 'bacon', 'milk'];
-const App = () => {
-  const [groceries, setGroceries] = useState(somegroceries);
+import AddButton from './components/AddButton';
 
-  const deleteItem = indx => {
+const someGroceries = ['eggs', 'bacon', 'cheese'];
+
+const App = () => {
+  const [groceries, setGroceries] = useState(someGroceries);
+
+  const [groceryItem, setGroceryItem] = useState('');
+
+  const renderItem = ({item}) => {
+    return (
+      <Text
+        onPress={() => {
+          deleteItem(item);
+        }}>
+        {item}
+      </Text>
+    );
+  };
+
+  const addItem = () => {
+    setGroceries([...groceries, groceryItem]);
+    setGroceryItem('');
+  };
+
+  const deleteItem = itemInput => {
     setGroceries(
-      groceries.filter((item, idx) => {
-        if (idx !== indx) {
+      groceries.filter(item => {
+        if (item !== itemInput) {
           return item;
         }
       }),
@@ -40,18 +46,21 @@ const App = () => {
   return (
     <SafeAreaView style={styles.box1}>
       <View>
-        {/* {groceries.map((item, indx) => {
-          return <Text onPress={() => deleteItem(indx)}>{item.item}</Text>;
-        })} */}
         <View style={styles.insertItemStyle}>
           <TextInput
             style={styles.textInputStyle}
             placeholder="Enter Item"
+            value={groceryItem}
             spellCheck={true}
+            onChangeText={text => setGroceryItem(text)}
           />
-          <Additem />
+          <AddButton addItem={addItem} />
         </View>
-        <FlatList data={DATA} />
+        <FlatList
+          contentContainerStyle={styles.flatlistStyle}
+          data={groceries}
+          renderItem={renderItem}
+        />
       </View>
     </SafeAreaView>
   );
@@ -79,5 +88,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: 'black',
     borderWidth: 1,
+  },
+  flatlistStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'black',
+    marginTop: 80,
   },
 });
