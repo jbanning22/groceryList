@@ -7,8 +7,9 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AddButton from './components/AddButton';
+import axios, {isCancel, AxiosError} from 'axios';
 
 const someGroceries = ['eggs', 'bacon', 'cheese'];
 
@@ -16,6 +17,22 @@ const App = () => {
   const [groceries, setGroceries] = useState(someGroceries);
 
   const [groceryItem, setGroceryItem] = useState('');
+
+  const [students, setStudents] = useState();
+
+  const fetchApi = async () => {
+    try {
+      const res = await axios.get('http://192.168.1.154:3000/api/v1/students');
+      //console.log(res.data);
+      setStudents(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchApi();
+  }, []);
 
   const renderItem = ({item}) => {
     return (
@@ -25,6 +42,16 @@ const App = () => {
         }}>
         {item}
       </Text>
+    );
+  };
+
+  const renderStudentItem = ({item}) => {
+    console.log(item.name);
+    return (
+      <View>
+        <Text>{item.name}</Text>
+        <Text>{item.age}</Text>
+      </View>
     );
   };
 
@@ -61,6 +88,11 @@ const App = () => {
           data={groceries}
           renderItem={renderItem}
         />
+        <FlatList
+          contentContainerStyle={styles.flatlistStyle}
+          data={students}
+          renderItem={renderStudentItem}
+        />
       </View>
     </SafeAreaView>
   );
@@ -95,5 +127,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     marginTop: 80,
+    padding: 10,
   },
 });
