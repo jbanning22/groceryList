@@ -3,13 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   FlatList,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AddButton from './components/AddButton';
-import axios, {isCancel, AxiosError} from 'axios';
+import axios from 'axios';
 
 const someGroceries = ['eggs', 'bacon', 'cheese'];
 
@@ -18,21 +17,21 @@ const App = () => {
 
   const [groceryItem, setGroceryItem] = useState('');
 
-  const [students, setStudents] = useState();
+  //   const [students, setStudents] = useState();
 
-  const fetchApi = async () => {
-    try {
-      const res = await axios.get('http://192.168.1.154:3000/api/v1/students');
-      //console.log(res.data);
-      setStudents(res.data);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  //   const fetchApi = async () => {
+  //     try {
+  //       const res = await axios.get('http://192.168.1.154:3000/api/v1/groceries');
+  //       console.log(res.data);
+  //       setStudents(res.data);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
 
-  useEffect(() => {
-    fetchApi();
-  }, []);
+  //   useEffect(() => {
+  //     fetchApi();
+  //   }, []);
 
   const renderItem = ({item}) => {
     return (
@@ -45,15 +44,15 @@ const App = () => {
     );
   };
 
-  const renderStudentItem = ({item}) => {
-    console.log(item.name);
-    return (
-      <View>
-        <Text>{item.name}</Text>
-        <Text>{item.age}</Text>
-      </View>
-    );
-  };
+  //   const renderStudentItem = ({item}) => {
+  //     console.log(item.name);
+  //     return (
+  //       <View>
+  //         <Text>{item.name}</Text>
+  //         <Text>{item.age}</Text>
+  //       </View>
+  //     );
+  //   };
 
   const addItem = () => {
     setGroceries([...groceries, groceryItem]);
@@ -88,11 +87,11 @@ const App = () => {
           data={groceries}
           renderItem={renderItem}
         />
-        <FlatList
+        {/* <FlatList
           contentContainerStyle={styles.flatlistStyle}
           data={students}
           renderItem={renderStudentItem}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInputStyle: {
-    // margin: 10,
     height: 40,
     width: 120,
     padding: 10,
